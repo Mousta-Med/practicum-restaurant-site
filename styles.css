@@ -15,10 +15,17 @@
   --color-accent-dark: #93391a;
   --color-accent-light: #e8875a;
   --color-bg: #faf6ef;
+  --color-surface: #fffdf9;
+  --color-surface-alt: #f1e8d9;
   --color-text: #2a2622;
+  --color-text-muted: #6b625a;
   --color-text-light: #f7f1e6;
   --color-text-light-muted: #cbc3b2;
+  --color-border: #ddd2bf;
   --color-border-light: rgba(247, 241, 230, 0.2);
+  --color-overlay-strong: rgba(22, 28, 20, 0.85);
+  --color-overlay-soft: rgba(22, 28, 20, 0.35);
+  --color-shadow: rgba(47, 62, 44, 0.12);
 
   /* Typography */
   --font-heading: Georgia, "Times New Roman", serif;
@@ -56,6 +63,21 @@ body {
   background-color: var(--color-bg);
 }
 
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
 a {
   color: inherit;
 }
@@ -89,6 +111,57 @@ a {
 
 .btn-small {
   padding: 0.5rem 1rem;
+}
+
+.btn-outline {
+  border: 2px solid currentColor;
+  background-color: transparent;
+  color: var(--color-text-light);
+  padding: calc(0.75rem - 2px) calc(1.5rem - 2px);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-text-light);
+  color: var(--color-primary);
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+  border: 0;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.section {
+  padding-block: var(--space-xl);
+}
+
+.section-header {
+  max-width: 40rem;
+  margin: 0 auto var(--space-lg);
+  text-align: center;
+}
+
+.section-header p:last-child {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.section-title {
+  margin: 0 0 var(--space-sm);
+  font-size: clamp(1.75rem, 2.5vw + 1rem, 2.5rem);
+  color: var(--color-primary);
+}
+
+.eyebrow {
+  margin: 0 0 var(--space-xs);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
 }
 
 .logo {
@@ -217,5 +290,9 @@ a {
 @media (min-width: 48em) {
   :root {
     --header-offset: 5rem;
+  }
+
+  .section {
+    padding-block: 5rem;
   }
 }
