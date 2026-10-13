@@ -399,6 +399,85 @@ a {
 }
 
 /* ==========================================================================
+   Reservation
+   ========================================================================== */
+
+.reservation-grid {
+  display: grid;
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+.reservation-info p:not(.eyebrow) {
+  color: var(--color-text-muted);
+}
+
+.reservation-info a {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.reservation-img {
+  width: 100%;
+  margin-top: var(--space-md);
+  border-radius: var(--radius);
+}
+
+.reservation-form {
+  padding: var(--space-md);
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+  box-shadow: 0 8px 24px var(--color-shadow);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.form-field-full {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 3rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.form-field textarea {
+  resize: vertical;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--color-primary);
+}
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 
@@ -484,5 +563,16 @@ a {
 
   .about-img {
     aspect-ratio: 4 / 5;
+  }
+
+  .reservation-form {
+    padding: var(--space-lg);
+  }
+}
+
+@media (min-width: 60em) {
+  .reservation-grid {
+    grid-template-columns: 1fr 1.25fr;
+    gap: var(--space-xl);
   }
 }
