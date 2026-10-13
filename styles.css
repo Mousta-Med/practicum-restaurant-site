@@ -319,6 +319,86 @@ a {
 }
 
 /* ==========================================================================
+   Menu
+   ========================================================================== */
+
+.menu {
+  background-color: var(--color-surface-alt);
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+  gap: var(--space-md);
+}
+
+.menu-category {
+  overflow: hidden;
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+  box-shadow: 0 8px 24px var(--color-shadow);
+}
+
+.menu-category img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.menu-category-body {
+  padding: var(--space-md);
+}
+
+.menu-category h3 {
+  margin: 0 0 var(--space-sm);
+  font-size: 1.5rem;
+  color: var(--color-primary);
+}
+
+.dish-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dish + .dish {
+  margin-top: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-border);
+}
+
+.dish-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+}
+
+/* Dotted leader line between the dish name and its price */
+.dish-header::after {
+  content: "";
+  order: 1;
+  flex: 1 1 1rem;
+  border-bottom: 2px dotted var(--color-border);
+}
+
+.dish-name {
+  margin: 0;
+  font-size: 1.0625rem;
+}
+
+.dish-price {
+  order: 2;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.dish-desc {
+  margin: 0.25rem 0 0;
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 
