@@ -274,6 +274,51 @@ a {
 }
 
 /* ==========================================================================
+   About
+   ========================================================================== */
+
+.about-grid {
+  display: grid;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+.about-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.about-text p:not(.eyebrow) {
+  color: var(--color-text-muted);
+}
+
+.about-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin: var(--space-lg) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-highlights li {
+  flex: 1 1 9rem;
+  padding: var(--space-sm);
+  border-left: 3px solid var(--color-accent);
+  background-color: var(--color-surface-alt);
+  font-size: 0.9375rem;
+}
+
+.about-highlights strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--color-primary);
+}
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 
@@ -350,5 +395,14 @@ a {
 
   .section {
     padding-block: 5rem;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr 1.1fr;
+    gap: var(--space-xl);
+  }
+
+  .about-img {
+    aspect-ratio: 4 / 5;
   }
 }
