@@ -1,6 +1,12 @@
-function MenuCard({ item }) {
+import QuantityStepper from './QuantityStepper.jsx'
+
+function MenuCard({ item, quantity, onQuantityChange }) {
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-md bg-surface shadow-card">
+    <article
+      className={`flex h-full flex-col overflow-hidden rounded-md bg-surface shadow-card ${
+        quantity > 0 ? 'ring-2 ring-ember' : ''
+      }`}
+    >
       <img
         src={item.image}
         alt={item.alt}
@@ -18,6 +24,11 @@ function MenuCard({ item }) {
           <span className="font-bold text-ember">${item.price}</span>
         </div>
         <p className="mt-1 text-[0.9375rem] text-muted">{item.description}</p>
+
+        <div className="mt-auto flex items-center justify-between gap-4 pt-5">
+          <span className="text-sm text-muted">Pre-order</span>
+          <QuantityStepper value={quantity} onChange={onQuantityChange} label={item.name} />
+        </div>
       </div>
     </article>
   )

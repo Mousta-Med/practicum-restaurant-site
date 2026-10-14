@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { menuItems } from '../data/menu.js'
 import MenuCard from './MenuCard.jsx'
+import OrderSummary from './OrderSummary.jsx'
 import SectionHeading from './SectionHeading.jsx'
 
 // 'All' plus each category found in the data, without duplicates
@@ -8,9 +9,19 @@ const categories = ['All', ...new Set(menuItems.map((item) => item.category))]
 
 function Menu() {
   const [activeCategory, setActiveCategory] = useState('All')
+  // Pre-order quantities by dish id, e.g. { 4: 2, 7: 1 }. Kept here (not in each card)
+  // so they survive when the filter hides a card, and so we can total them.
+  const [quantities, setQuantities] = useState({})
 
   const visibleItems =
     activeCategory === 'All' ? menuItems : menuItems.filter((item) => item.category === activeCategory)
+
+  function updateQuantity(id, newQuantity) {
+    setQuantities((current) => ({ ...current, [id]: newQuantity }))
+  }
+
+  const itemCount = menuItems.reduce((sum, item) => sum + (quantities[item.id] ?? 0), 0)
+  const total = menuItems.reduce((sum, item) => sum + (quantities[item.id] ?? 0) * item.price, 0)
 
   return (
     <section id="menu" aria-labelledby="menu-title" className="bg-sand py-16 md:py-20">
@@ -50,10 +61,16 @@ function Menu() {
         <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {visibleItems.map((item) => (
             <li key={item.id}>
-              <MenuCard item={item} />
+              <MenuCard
+                item={item}
+                quantity={quantities[item.id] ?? 0}
+                onQuantityChange={(newQuantity) => updateQuantity(item.id, newQuantity)}
+              />
             </li>
           ))}
         </ul>
+
+        {itemCount > 0 && <OrderSummary itemCount={itemCount} total={total} onClear={() => setQuantities({})} />}
       </div>
     </section>
   )
