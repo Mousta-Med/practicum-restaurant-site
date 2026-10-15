@@ -53,7 +53,7 @@ function Reservation() {
 
         <div className="rounded-md bg-surface p-6 shadow-card md:p-10">
           {booking ? (
-            <div role="status">
+            <div role="status" className="wrap-anywhere">
               <h3 className="mb-3 font-heading text-2xl font-bold text-olive">Thank you, {booking.name}!</h3>
               <p className="text-muted">
                 Your request for {booking.guests} {booking.guests === '1' ? 'guest' : 'guests'} on{' '}
