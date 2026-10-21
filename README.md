@@ -55,3 +55,15 @@ Both are safe to run again. `db:schema` skips tables that already exist. `db:see
 | `created_at` | timestamp | When the row was added |
 
 In plain English: every dish has a unique name, belongs to exactly one of three categories, has a price that can't be negative, and has a photo with a text description.
+
+## API
+
+All routes return JSON.
+
+| Route | Returns |
+|---|---|
+| `GET /api/health` | `{ "status": "ok", "database": "connected" }`, or HTTP 503 if the database can't be reached |
+| `GET /api/menu` | Every dish in menu order: `[{ id, category, name, description, price, image, alt }, …]` |
+| `GET /api/menu/:id` | One dish, e.g. `/api/menu/4`. HTTP 404 if there's no such dish, 400 if the id isn't a positive whole number |
+
+The menu routes live in [`server/src/routes/menu.js`](server/src/routes/menu.js).
