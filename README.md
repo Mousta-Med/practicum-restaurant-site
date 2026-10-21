@@ -31,13 +31,14 @@ In development, Vite forwards every request that starts with `/api` to the Expre
 
 Postgres, hosted on Neon. The connection string lives in `server/.env` as `DATABASE_URL` (see `server/.env.example`); `.env` is git-ignored, so it is never committed.
 
-To create the tables, run this inside `server/`:
+To set up a fresh database, run these inside `server/`:
 
 ```bash
-npm run db:schema
+npm run db:schema   # creates the tables from server/db/schema.sql
+npm run db:seed     # fills menu_items with the 9 dishes from server/db/menu-data.js
 ```
 
-It runs [`server/db/schema.sql`](server/db/schema.sql). It's safe to run again, since it skips tables that already exist.
+Both are safe to run again. `db:schema` skips tables that already exist. `db:seed` updates dishes that already exist (matched by name) instead of adding duplicates.
 
 ### `menu_items`: one row per dish
 
