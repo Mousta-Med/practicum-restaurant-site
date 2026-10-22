@@ -78,7 +78,7 @@ All routes return JSON.
 | `GET /api/menu` | Every dish in menu order: `[{ id, category, name, description, price, image, alt }, …]` |
 | `GET /api/menu/:id` | One dish, e.g. `/api/menu/4`. HTTP 404 if there's no such dish, 400 if the id isn't a positive whole number |
 
-The menu routes live in [`server/src/routes/menu.js`](server/src/routes/menu.js).
+The menu routes live in [`server/src/routes/menu.js`](server/src/routes/menu.js). The React menu ([`client/src/components/Menu.jsx`](client/src/components/Menu.jsx)) loads its dishes with `fetch('/api/menu')` inside a `useEffect`. It shows placeholder cards while loading, and a "Try again" button if the API can't be reached.
 
 ### Authentication
 
