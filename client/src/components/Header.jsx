@@ -1,3 +1,4 @@
+import AccountButton from './AccountButton.jsx'
 import Logo from './Logo.jsx'
 
 const navLinks = [
@@ -12,7 +13,9 @@ function Header() {
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-3">
         <Logo />
 
-        <nav aria-label="Main">
+        {/* Phones: links get their own full-width row under the logo and account button.
+            md and up: one row, with the links pushed right next to the account button. */}
+        <nav aria-label="Main" className="order-last basis-full md:order-0 md:ml-auto md:basis-auto">
           <ul className="flex flex-wrap items-center gap-x-4 gap-y-2">
             {navLinks.map((link) => (
               <li key={link.href}>
@@ -34,6 +37,8 @@ function Header() {
             </li>
           </ul>
         </nav>
+
+        <AccountButton />
       </div>
     </header>
   )

@@ -19,7 +19,7 @@ cd server
 npm install
 npm run dev
 
-# Terminal 2: the website on http://localhost:5173
+# Terminal 2: the website on http://localhost:5180
 cd client
 npm install
 npm run dev
@@ -95,3 +95,8 @@ The menu routes live in [`server/src/routes/menu.js`](server/src/routes/menu.js)
 **How a session works:** after sign-in, the server sends a signed, `HttpOnly` cookie holding the session token. JavaScript can't read it, so scripts can't steal it, but the browser sends it with every request. On each request, the server looks the token up in the `session` table. That's why you stay signed in after a page refresh, for 7 days. [`server/src/middleware/require-auth.js`](server/src/middleware/require-auth.js) does this check for protected routes.
 
 Auth requests from any other website are refused (HTTP 403), because only `BETTER_AUTH_URL` is a trusted origin.
+
+**In the React app:**
+- [`client/src/lib/auth-client.js`](client/src/lib/auth-client.js) creates Better Auth's client.
+- [`AccountButton`](client/src/components/AccountButton.jsx) in the header calls `authClient.useSession()`. That asks the server who is signed in when the page loads, and re-renders whenever someone signs in or out. It shows "Sign in", or "Hi, name" and "Sign out".
+- "Sign in" opens [`AuthDialog`](client/src/components/AuthDialog.jsx), a sign-in / create-account form that calls `authClient.signIn.email()` or `authClient.signUp.email()`.
