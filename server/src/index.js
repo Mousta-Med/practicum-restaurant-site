@@ -1,9 +1,16 @@
+import { toNodeHandler } from 'better-auth/node'
 import express from 'express'
+import { auth } from './auth.js'
 import { pool } from './db.js'
+import { requireAuth } from './middleware/require-auth.js'
 import menuRouter from './routes/menu.js'
 
 const app = express()
 const port = process.env.PORT || 3000
+
+// Better Auth answers every /api/auth/... request: sign-up, sign-in, sign-out, get-session.
+// It must come before express.json() because it reads the request body itself.
+app.all('/api/auth/*splat', toNodeHandler(auth))
 
 // Parse JSON request bodies into req.body
 app.use(express.json())
@@ -20,6 +27,11 @@ app.get('/api/health', async (req, res) => {
 })
 
 app.use('/api/menu', menuRouter)
+
+// Who is signed in? Only works with a valid session cookie (otherwise 401).
+app.get('/api/me', requireAuth, (req, res) => {
+  res.json({ user: req.user })
+})
 
 // Any other /api path that no route above matched
 app.use('/api', (req, res) => {

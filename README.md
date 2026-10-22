@@ -34,11 +34,23 @@ Postgres, hosted on Neon. The connection string lives in `server/.env` as `DATAB
 To set up a fresh database, run these inside `server/`:
 
 ```bash
-npm run db:schema   # creates the tables from server/db/schema.sql
+npm run db:schema   # creates our tables from server/db/schema.sql
+npm run db:auth     # creates Better Auth's tables (prints the SQL it runs)
 npm run db:seed     # fills menu_items with the 9 dishes from server/db/menu-data.js
 ```
 
-Both are safe to run again. `db:schema` skips tables that already exist. `db:seed` updates dishes that already exist (matched by name) instead of adding duplicates.
+All three are safe to run again. `db:schema` and `db:auth` skip tables that already exist. `db:seed` updates dishes that already exist (matched by name) instead of adding duplicates.
+
+### Tables created by Better Auth (the auth library)
+
+| Table | What one row is |
+|---|---|
+| `user` | A person with an account: `id`, `name`, `email` (unique), `emailVerified`, timestamps |
+| `account` | How that person signs in. For email + password, it holds the **hashed** password (a random salt plus a scrypt hash, never the real password) |
+| `session` | One signed-in browser: a random `token` (also stored in the browser's cookie), `expiresAt`, and the `userId` it belongs to |
+| `verification` | Short-lived codes, such as email verification or password reset links |
+
+`account` and `session` point to `user` through `userId`, with `on delete cascade`: deleting a user also deletes their sessions and sign-in methods.
 
 ### `menu_items`: one row per dish
 
@@ -67,3 +79,19 @@ All routes return JSON.
 | `GET /api/menu/:id` | One dish, e.g. `/api/menu/4`. HTTP 404 if there's no such dish, 400 if the id isn't a positive whole number |
 
 The menu routes live in [`server/src/routes/menu.js`](server/src/routes/menu.js).
+
+### Authentication
+
+[Better Auth](https://www.better-auth.com) is configured in [`server/src/auth.js`](server/src/auth.js) and answers every `/api/auth/...` route:
+
+| Route | Does |
+|---|---|
+| `POST /api/auth/sign-up/email` | Creates an account (`name`, `email`, `password` of 8+ characters) and signs in |
+| `POST /api/auth/sign-in/email` | Signs in. Wrong email or password returns HTTP 401 |
+| `POST /api/auth/sign-out` | Ends the session |
+| `GET /api/auth/get-session` | The current user and session, or `null` |
+| `GET /api/me` | Our own protected route: the signed-in user, or HTTP 401 |
+
+**How a session works:** after sign-in, the server sends a signed, `HttpOnly` cookie holding the session token. JavaScript can't read it, so scripts can't steal it, but the browser sends it with every request. On each request, the server looks the token up in the `session` table. That's why you stay signed in after a page refresh, for 7 days. [`server/src/middleware/require-auth.js`](server/src/middleware/require-auth.js) does this check for protected routes.
+
+Auth requests from any other website are refused (HTTP 403), because only `BETTER_AUTH_URL` is a trusted origin.
